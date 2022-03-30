@@ -1,13 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-const Home = () => {
+const Home = (props) => {
+  const handleClick = () => {
+    props.dispatch({ type: "INCREMENT" });
+  };
+
   return (
     <div>
       <Link to="/">Home</Link> | <Link to="/login">Login</Link>
-      <p>Home</p>
+      <p>Home{props.state}</p>
+      <button onClick={handleClick}>Add</button>
     </div>
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => ({
+  state: state,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatch: dispatch,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

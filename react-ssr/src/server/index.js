@@ -2,7 +2,9 @@ import express from "express";
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 import Routes from "../Routes";
+import getStore from "../store";
 
 const app = express();
 app.use(express.static("public"));
@@ -10,9 +12,11 @@ app.use(express.static("public"));
 app.get("*", (req, res) => {
   console.log(Routes);
   const content = renderToString(
-    <StaticRouter location={req.path} context={{}}>
-      {Routes}
-    </StaticRouter>
+    <Provider store={getStore()}>
+      <StaticRouter location={req.path} context={{}}>
+        {Routes}
+      </StaticRouter>
+    </Provider>
   );
 
   res.send(`
@@ -29,5 +33,7 @@ app.get("*", (req, res) => {
 });
 
 const server = app.listen(10086, () => {
-  console.log("🚀 ~ file: index.js ~ line 32 ~ server ~ server");
+  const host = server.address().address;
+  const port = server.address().port;
+  console.log("Listen:", host + port);
 });

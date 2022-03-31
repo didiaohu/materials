@@ -25,3 +25,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+// TODO: redux、axios、部署

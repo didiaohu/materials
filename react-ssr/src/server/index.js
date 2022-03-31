@@ -4,12 +4,13 @@ import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import Routes from "../Routes";
-import getStore from "../store";
+import { getStore } from "../store";
 
 const app = express();
 app.use(express.static("public"));
 
 app.get("*", (req, res) => {
+  const store = getStore();
   console.log(Routes);
   const content = renderToString(
     <Provider store={getStore()}>
@@ -19,6 +20,8 @@ app.get("*", (req, res) => {
     </Provider>
   );
 
+  store.dispatch({ type: "INCREMENT" });
+
   res.send(`
     <html>
       <head>
@@ -26,6 +29,11 @@ app.get("*", (req, res) => {
       </head>
       <body>
         <div id="root">${content}</div>
+        <script>
+          window.context = {
+            state: ${JSON.stringify(store.getState())}
+          }
+        </script>
         <script src="/index.js"></script>
       </body>
     </html>

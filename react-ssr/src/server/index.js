@@ -5,9 +5,23 @@ import { StaticRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import Routes from "../Routes";
 import { getStore } from "../store";
+import Mock from "mockjs";
 
 const app = express();
 app.use(express.static("public"));
+
+app.get("/api/home/list", (req, res) => {
+  res.send(
+    Mock.mock({
+      "data|5": [
+        {
+          "id|+1": 1,
+          "title|+1": [111111, 222222, 333333, 444444, 555555, 666666],
+        },
+      ],
+    })
+  );
+});
 
 app.get("*", (req, res) => {
   const store = getStore();

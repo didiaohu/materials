@@ -1,17 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import "../mock/index";
 import axios from "axios";
 
+const instance = axios.create({
+  baseURL: "http://localhost:10086",
+});
+
 const Home = (props) => {
-  axios
-    .get("http://localhost:10086/getNewsList")
+  instance
+    .get("/api/home/list")
     .then(function (response) {
-      console.log(response);
+      console.log(1111111);
+      console.log(response.data);
     })
     .catch(function (error) {
-      console.log(1111111);
       console.log(error);
     });
 

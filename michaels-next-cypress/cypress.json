@@ -1,0 +1,5 @@
+{
+  "baseUrl": "https://mik.dev.platform.michaels.com",
+  "pageLoadTimeout": 8000,
+  "https": true
+}
